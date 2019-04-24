@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DateSelect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .date-controller {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            text-align: center;
+            font-size: 14px;
+            background-color: rgba(37, 38, 45, .4);
+        }
+
+         .date-controller-all {
+            position: absolute;
+            z-index: 600;
+            bottom: 0;
+            width: 100%;
+            height: 338px;
+            background: #fff;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="date-controller" class="date-controller" style="display:none"></div>
+   <!-- <div class="date-controller-all">
+        <div class="select-date-btnbox">
+            <table>
+                <tr>
+                    <td id="btnClose" style="color: #A7A7A7;">取消</td>
+                    <td>选择租期</td>
+                    <td id="btnSure" style="color: #1A8CFF;">确定</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td style="width: 50%;"><input class="select-dateInput" id='starDate' data-active="true" type="text" placeholder="起始日期" readonly="true"></td>
+                    <td><input class="select-dateInput" id='endDate' data-active="false" type="text" placeholder="结束日期" readonly="true"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="date-controller-content">
+            <div id='DateSelect-box'>
+
+            </div>
+        </div>
+
+    </div> -->
+    <div class="addParkName-box" style="margin-top: 0px;margin-bottom: 0px;">
+        <div class="search addParkName-bar">
+            <form>
+                <!-- <input  type="text" class="phone-roomDate-span" value="租期" disabled="disabled"> -->
+                <span>租期</span>
+                <input  type="text" class="phone-roomDate" id="phone-roomDate" placeholder="请选择" readonly="readonly">
+                <!-- <input data-options='{"type":"date"}' type="button" class="phone-roomDate-star btn-date" value="开始时间">- -->
+                <!-- <input data-options='{"type":"date"}' type="button" class="phone-roomDate-end btn-date" value="结束时间"> -->
+                <!-- <input id="date-controller" class="date-controller"  type="text"  placeholder="请选择" > -->
+            </form>
+        </div>
+    </div>
+</body>
+<script src="DateSelect.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script>
+    var start_time,end_time,aa;
+    // 时间控件
+    var dateSelect = new DateSelect({
+        title:'选择租期',
+        idBox: '#date-controller',
+        id:'#phone-roomDate',
+        clickResult: function (result) {//输出日期
+            var nowtime_str =Date.parse(new Date().toLocaleDateString())/1000;
+            // console.log(result)
+            for(var i= 0 ; i < result.length;i++){
+              if(i > 0){
+                start_time =result[i-1].value;
+                end_time =result[i].value;
+              }
+            }
+            if ( start_time )
+                var start_time_str = Date.parse(start_time)/1000;
+            if ( end_time )
+                var end_time_str = Date.parse(end_time)/1000;
+            if ( start_time_str > nowtime_str ) {
+                alert("开始时间应小于当前时间");
+                $('#phone-roomDate').val( '' )
+                return ;
+            }
+            if ( end_time_str < nowtime_str ) {
+                alert("结束时间应大于当前时间");
+                $('#phone-roomDate').val( '')
+                return ;
+            }
+            // if(start_time_str <= nowtime_str &&  end_time_str >= nowtime_str){
+                $('#phone-roomDate').val( start_time +' - '+end_time)
+            // }
+        }
+    });
+</script>
+</html>
